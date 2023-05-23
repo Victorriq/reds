@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reds/root.dart';
 import 'screens/login.dart';
 import 'package:reds/screens/index.dart';
 
@@ -6,7 +7,8 @@ bool logeado = false;
 
 void main() async {
   final routes = {
-    '/': (context) => const HomePage(),
+    '/': (context) => const Root(),
+    '/home': (context) => const HomePage(),
     '/login': (context) => const LoginPage(),
     '/register': (context) => const RegisterPage()
   };
