@@ -148,9 +148,9 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       child: Padding(
                         padding: EdgeInsets.only(top: size.height * .1),
                         child: Text(
-                          'APP NAME',
+                          'Redly',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(.7),
+                            color: const Color.fromARGB(255, 255, 255, 255).withOpacity(.7),
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
@@ -193,8 +193,8 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 2.58,
                                 () {
                                   HapticFeedback.lightImpact();
-                                  Fluttertoast.showToast(
-                                      msg: 'Login button pressed');
+                                 Navigator.pushReplacementNamed(context, '/');
+
                                 },
                                 size,
                               ),
