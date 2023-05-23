@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'screens/login.dart';
+import 'package:reds/screens/index.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+bool logeado = false;
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+void main() async {
+  final routes = {
+    '/': (context) => const HomePage(),
+    '/login': (context) => const LoginPage(),
+    '/register': (context) => const RegisterPage()
+  };
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+  runApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        
-      ),
-    );
-  }
+      initialRoute: logeado ? '/' : '/login',
+      routes: routes,
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => const ErrorPage(),
+        );
+      },
+    ),
+  );
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
 }
