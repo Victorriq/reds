@@ -150,7 +150,8 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         child: Text(
                           'Redly',
                           style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 255, 255).withOpacity(.7),
+                            color: const Color.fromARGB(255, 255, 255, 255)
+                                .withOpacity(.7),
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
@@ -193,8 +194,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 2.58,
                                 () {
                                   HapticFeedback.lightImpact();
-                                 Navigator.pushReplacementNamed(context, '/');
-
+                                  Navigator.pushReplacementNamed(context, '/');
                                 },
                                 size,
                               ),
