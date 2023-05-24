@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:async';
+//import 'dart:js';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import '../utils/globals.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'home.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -19,6 +24,9 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late Animation<double> animation2;
   late Animation<double> animation3;
   late Animation<double> animation4;
+  // Define los controladores
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -171,6 +179,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             false,
                             false,
                             size,
+                            _usernameController,
                           ),
                           component1(
                             Icons.email_outlined,
@@ -178,6 +187,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             false,
                             true,
                             size,
+                            _usernameController,
                           ),
                           component1(
                             Icons.lock_outline,
@@ -185,24 +195,22 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             true,
                             false,
                             size,
+                            _passwordController,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              component2(
-                                'LOGIN',
-                                2.58,
-                                () {
-                                  HapticFeedback.lightImpact();
-                                  Navigator.pushReplacementNamed(context, '/');
-                                },
-                                size,
-                              ),
+                            component2(
+                            'LOGIN',
+                            2.58,
+                                () => _login(context, _usernameController.text, _passwordController.text),
+                            size,
+                          ),
                               SizedBox(width: size.width / 20),
                               component2(
                                 'Forgotten password!',
                                 2.58,
-                                () {
+                                    () {
                                   HapticFeedback.lightImpact();
                                   Fluttertoast.showToast(
                                       msg: 'Forgotten password button pressed');
@@ -222,7 +230,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           component2(
                             'Create a new Account',
                             2,
-                            () {
+                                () {
                               HapticFeedback.lightImpact();
                               Fluttertoast.showToast(
                                   msg: 'Create a new account button pressed');
@@ -249,6 +257,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     bool isPassword,
     bool isEmail,
     Size size,
+   TextEditingController controller
   ) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
@@ -267,6 +276,7 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(15),
           ),
           child: TextField(
+            controller: controller,
             style: TextStyle(color: Colors.white.withOpacity(.8)),
             cursorColor: Colors.white,
             obscureText: isPassword,
@@ -290,11 +300,11 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   Widget component2(
-    String string,
-    double width,
-    VoidCallback voidCallback,
-    Size size,
-  ) {
+      String string,
+      double width,
+      VoidCallback voidCallback,
+      Size size,
+      ) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: BackdropFilter(
@@ -320,7 +330,59 @@ class LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ),
     );
   }
+
+
+  void _login(BuildContext context,String username, String password) async {
+    final response = await http.post(
+      Uri.parse(Global.url),
+      body: {
+        'usuario': username,
+        'password': password,
+        'login': '1',
+      },
+    );
+    if (response.statusCode == 200) {
+      try {
+      var jsonResponse = json.decode(response.body);
+      var tieneId=jsonResponse.containsKey('id');
+      if(tieneId){
+        // navegar a la página de inicio
+        Navigator.pushReplacement(
+          context as BuildContext,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const HomePage(),
+          ),
+        );
+
+      }else{
+        var tieneActivo=jsonResponse.containsKey('activo');
+        if(tieneActivo){
+          // mostrar mensaje de error
+          ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+              SnackBar(content: Text('Usuario está inactivo'))
+          );
+        }
+        // mostrar mensaje de error
+        ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+            SnackBar(content: Text('Usuario no existe'))
+        );
+
+      }
+      } catch (e) {
+        // manejo de excepciones al decodificar el JSON
+        // mostrar mensaje de error
+        ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+            SnackBar(content: Text('Usuario no existe'))
+        );
+      }
+    } else {
+      throw Exception('Error al hacer la petición');
+    }
+  }
+
+
 }
+
 
 class MyPainter extends CustomPainter {
   final double radius;
