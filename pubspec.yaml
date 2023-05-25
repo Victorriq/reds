@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^8.2.2
   curved_navigation_bar: ^1.0.3
   flutter_icons_null_safety: ^1.1.0
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:

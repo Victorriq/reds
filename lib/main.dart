@@ -3,7 +3,7 @@ import 'package:reds/root.dart';
 import 'screens/login.dart';
 import 'package:reds/screens/index.dart';
 
-bool logeado = false;
+bool logeado = true;
 
 void main() async {
   final routes = {
