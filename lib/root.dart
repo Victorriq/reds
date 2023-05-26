@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:reds/screens/events.dart';
 import 'package:reds/screens/home.dart';
 import 'package:reds/screens/notifications.dart';
 import 'package:reds/screens/profile.dart';
@@ -18,7 +19,7 @@ class RootState extends State<Root> {
   int _currentIndex = 0;
   final List<Widget> _pages = const [
     HomePage(),
-    SearchPage(),
+    EventsPage(),
     UploadPage(),
     NotisPage(),
     ProfilePage(),
