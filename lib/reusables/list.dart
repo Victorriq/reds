@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+var nombre = "Victor";
+var usuario = "Victor";
+var ubicacion = "España";
+
 class MyListScreen extends StatelessWidget {
   const MyListScreen({super.key});
 
@@ -22,7 +26,7 @@ class MyListScreen extends StatelessWidget {
             title: 'Profesión',
             text: 'Ingeniero',
           ),
-           ListItem(
+          ListItem(
             title: 'Nombre',
             text: 'Juan Pérez',
           ),
@@ -66,7 +70,8 @@ class ListItem extends StatelessWidget {
           const SizedBox(height: 8.0),
           Text(
             text,
-            style: const TextStyle(fontSize: 16.0, color: Colors.white), // Texto blanco
+            style: const TextStyle(
+                fontSize: 16.0, color: Colors.white), // Texto blanco
           ),
         ],
       ),
