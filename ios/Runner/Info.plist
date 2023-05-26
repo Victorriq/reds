@@ -47,5 +47,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+<string>Acceso a la biblioteca de fotos</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Guardar fotos en la biblioteca</string>
+
 </dict>
 </plist>
