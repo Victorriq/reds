@@ -13,9 +13,11 @@ class _EventsPageState extends State<EventsPage> {
   final DateFormat _dayOfMonthFormat = DateFormat('d');
 
   DateTime selectedDay = DateTime.now(); // Variable para almacenar el día seleccionado
+  bool isEventExpanded = false; // Variable para rastrear si el texto de eventos está expandido
+  int clickCount = 0; // Variable para contar los clics en el mismo día
 
-  Map<DateTime, String> events = {
-    DateTime(DateTime.now().year, 5, 29): 'Evento del 29 de mayo', // Evento programado para el 29 de mayo
+  Map<DateTime, List<String>> events = {
+    DateTime(DateTime.now().year, 5, 29): ['Evento 1', 'Evento 2'], // Eventos programados para el 29 de mayo
   };
 
   @override
@@ -89,9 +91,15 @@ class _EventsPageState extends State<EventsPage> {
                       // Acción al pulsar en un día
                       setState(() {
                         if (isSelectedDay) {
-                          selectedDay = DateTime(0); // Reiniciar el día seleccionado
+                          clickCount++;
+                          if (clickCount % 2 == 0) {
+                            selectedDay = DateTime(0); // Cerrar el texto de eventos
+                            isEventExpanded = false;
+                          }
                         } else {
                           selectedDay = day; // Almacenar el nuevo día seleccionado
+                          isEventExpanded = true; // Expandir el texto de eventos
+                          clickCount = 1; // Reiniciar el contador de clics
                         }
                       });
                     },
@@ -116,21 +124,49 @@ class _EventsPageState extends State<EventsPage> {
                 },
               ),
             ),
-            Visibility(
-              visible: selectedDay != DateTime(0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  events[selectedDay] ?? 'No hay eventos programados para este día',
-                  style: const TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: selectedDayEvents(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget selectedDayEvents() {
+    if (isEventExpanded && events.containsKey(selectedDay) && events[selectedDay]!.isNotEmpty) {
+      return Column(
+        children: [
+          Text(
+            'Eventos programados para el ${DateFormat('d MMMM yyyy').format(selectedDay)}:',
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: events[selectedDay]?.length ?? 0,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(
+                  events[selectedDay]?[index] ?? '',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    } else if (clickCount % 2 != 0) {
+      return Text(
+        'No hay eventos programados para este día',
+        style: const TextStyle(color: Colors.white),
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return SizedBox(); // Si no hay eventos y se han hecho clics pares, simplemente devuelve un SizedBox
+    }
   }
 
   int getDaysInMonth(DateTime dateTime) {
