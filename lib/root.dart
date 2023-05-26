@@ -4,7 +4,6 @@ import 'package:reds/screens/events.dart';
 import 'package:reds/screens/home.dart';
 import 'package:reds/screens/notifications.dart';
 import 'package:reds/screens/profile.dart';
-import 'package:reds/screens/search.dart';
 import 'package:reds/screens/upload.dart';
 
 

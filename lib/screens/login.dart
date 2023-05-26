@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:async';
-//import 'dart:js';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../utils/globals.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
 import 'home.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
