@@ -31,7 +31,7 @@ class RootState extends State<Root> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
         index: _currentIndex,
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.black,
         items: const [
           Icon(Icons.home, size: 30),
           Icon(Icons.search, size: 30),
