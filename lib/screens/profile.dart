@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reds/feeds/post.dart';
+import 'package:reds/reusables/list.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key});
@@ -145,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage>
                           Container(color: Colors.green),
                           Container(color: Colors.blue),
                           Container(color: Colors.yellow),
-                          const postfeed(),
+                          MyListScreen(),
                         ],
                       ),
                     ),
